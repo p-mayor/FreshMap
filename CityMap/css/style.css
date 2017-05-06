@@ -1,0 +1,31 @@
+html,
+body {
+  font-family: 'Open Sans', sans-serif;
+  height: 100%;
+}
+
+#map {
+  bottom:0px;
+  height: 100%;
+  left: 362px;
+  position: absolute;
+  right: 0px;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+}
+
+ul {
+  list-style: none;
+}
+
+h2 {
+  text-align: center;
+}
+
+#pano {
+  width: 200px;
+  height: 200px;
+}
