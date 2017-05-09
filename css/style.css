@@ -1,0 +1,66 @@
+html,
+body {
+  font-family: 'Open Sans', sans-serif;
+  height: 100%;
+}
+
+#map {
+  bottom:0px;
+  height: 100%;
+  left: 362px;
+  position: absolute;
+  right: 0px;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+}
+
+ul {
+  list-style: none;
+}
+
+h2 {
+}
+
+#pano {
+  width: 200px;
+  height: 200px;
+}
+
+#wikipedia-links {
+  height: 60%;
+  overflow: scroll;
+  overflow-x: hidden;
+  max-width: 350px;
+}
+
+#nytimes-articles {
+  height: 100%;
+  overflow: scroll;
+  overflow-x: hidden;
+  max-width: 350px;
+}
+
+.sidebar {
+  max-width: 350px;
+}
+
+.places {
+  height: 33%;
+  display: block;
+}
+
+.wiki {
+  height: 20%;
+}
+
+.nyt {
+  height: 20%;
+}
+
+.selectedplace {
+  padding-left: 40px;
+  height: 75px;
+}

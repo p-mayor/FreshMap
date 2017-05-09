@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Seattle Stuffs</title>
+    <link href="css/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="places">
+                <h2>Place List</h2>
+                <ul data-bind="foreach: placeList">
+                    <li id="place" data-bind="text: title, click: $parent.setPlace">
+                    </li>
+                </ul>
+                <hr>
+                <div class="selectedplace" data-bind="with:currentPlace">
+                    <h2>Selected:</h2>
+                    <div data-bind="text: title">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="wiki" id="wiki">
+                <h3>Wikipedia results:</h3>
+                <ul id="wikipedia-links">
+                    Select a location to see wikipedia results.
+                </ul>  
+            </div>
+            <hr>
+            <div class="nyt">
+                <h3 id="nytimes-header">
+                    New York Times Articles:
+                </h3>
+                <ul id="nytimes-articles" class="article-list">
+                    Select a location to see NY Times results.
+                </ul>
+            </div>
+        <div class="map" id="map"></div>
+    </div>
+    
+    
+    <script src="js/lib/knockout-3.2.0.js"></script>
+    <script src="js/lib/jquery.min.js"></script>
+    <script src="js/app.js"></script>
+    <script async defer
+     src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCoD7Z1yUOvwDLIwIQXgW18D8wQZTirfUk&callback=initMap"></script>
+</body>
+</html>
