@@ -8,19 +8,24 @@
 </head>
 <body>
     <div class="container">
-        <div class="sidebar">
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <div class="places">
                 <h2>Place List</h2>
                 <ul data-bind="foreach: placeList">
-                    <li id="place" data-bind="text: title, click: $parent.setPlace">
+                    <li id="place">
+                        Place # <span data-bind="text: id"></span>
+                        <button data-bind="text: title, click: $parent.setPlace"></button>
                     </li>
                 </ul>
                 <hr>
-                <div class="selectedplace" data-bind="with:currentPlace">
-                    <h2>Selected:</h2>
-                    <div data-bind="text: title">
-                    </div>
-                </div>
+            </div>
+            <div class="selected">
+                <span>Selected:</span>
+                <span class="selectedplace" data-bind="with:currentPlace">
+                    <span data-bind="text: title">
+                    </span>
+                </span>
             </div>
             <hr>
             <div class="wiki" id="wiki">
@@ -38,14 +43,16 @@
                     Select a location to see NY Times results.
                 </ul>
             </div>
+        </div>
+        <button onclick="openNav()">open</button>
         <div class="map" id="map"></div>
-    </div>
+    
     
     
     <script src="js/lib/knockout-3.2.0.js"></script>
     <script src="js/lib/jquery.min.js"></script>
     <script src="js/app.js"></script>
     <script async defer
-     src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCoD7Z1yUOvwDLIwIQXgW18D8wQZTirfUk&callback=initMap"></script>
+        src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCoD7Z1yUOvwDLIwIQXgW18D8wQZTirfUk&callback=initMap"></script>
 </body>
 </html>

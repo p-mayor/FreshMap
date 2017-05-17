@@ -7,9 +7,10 @@ body {
 #map {
   bottom:0px;
   height: 100%;
-  left: 362px;
+  left: 20px;
   position: absolute;
   right: 0px;
+  z-index: -1;
 }
 
 .container {
@@ -48,8 +49,10 @@ h2 {
 }
 
 .places {
-  height: 33%;
   display: block;
+}
+
+.selected {
 }
 
 .wiki {
@@ -62,5 +65,30 @@ h2 {
 
 .selectedplace {
   padding-left: 40px;
-  height: 75px;
+}
+
+.sidenav {
+    height: 100%; 
+    width: 0; 
+    position: fixed; 
+    z-index: 1; 
+    top: 0;
+    left: 0;
+    overflow-x: hidden; 
+    padding-top: 60px; 
+    transition: 0.5s;
+    background-color: white;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.open {
+  position: absolute;
+  z-index: 1;
 }

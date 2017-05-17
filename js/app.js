@@ -4,19 +4,48 @@ var markers = [];
 
 // Data model
 var locations = [
-    {title: 'Space Needle', location: {lat: 47.6205, lng: -122.3493}},
-    {title: 'Uwajimaya', location: {lat: 47.5968569, lng: -122.3271645}},
-    {title: 'Fremont Troll', location: {lat: 47.650934, lng: -122.347325}},
-    {title: 'Volunteer Park', location: {lat: 47.631877, lng:-122.315398}},
-    {title: 'Discovery Park', location: {lat: 47.6580719, lng: -122.426235}},
-    {title: 'Jack Block Park', location: {lat: 47.583620, lng: -122.369233}},
-    {title: 'Green Lake Park', location: {lat: 47.682384, lng: -122.333524}}
+    {
+        title: 'Space Needle',
+        location: {lat: 47.6205, lng: -122.3493},
+        id: 1
+    },
+    {
+        title: 'Uwajimaya',
+        location: {lat: 47.5968569, lng: -122.3271645},
+        id: 2
+    },
+    {
+        title: 'Fremont Troll',
+        location: {lat: 47.650934, lng: -122.347325},
+        id: 3
+    },
+    {
+        title: 'Volunteer Park',
+        location: {lat: 47.631877, lng:-122.315398},
+        id: 4
+    },
+    {
+        title: 'Discovery Park',
+        location: {lat: 47.6580719, lng: -122.426235},
+        id: 5
+    },
+    {
+        title: 'Jack Block Park',
+        location: {lat: 47.583620, lng: -122.369233},
+        id: 6
+    },
+    {
+        title: 'Green Lake Park',
+        location: {lat: 47.682384, lng: -122.333524},
+        id: 7
+    }
 ];
 
 // create observables of data model
 var Place = function(data) {
 	this.title = ko.observable(data.title);
 	this.location = ko.observable(data.location);
+    this.id = ko.observable(data.id)
 }
 
 var ViewModel = function() {
@@ -35,10 +64,12 @@ var ViewModel = function() {
 
 	this.setPlace = function(clickedPlace) {
 		self.currentPlace(clickedPlace);
-        console.log(self.currentPlace.title)
+        console.log(clickedPlace.title());
+        self.loadData(clickedPlace);
+    };
 
-
-        var searchStr = clickedPlace.title()
+    this.loadData = function(clickedPlace) {
+        var searchStr = clickedPlace.title();
         var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + searchStr +
             '&format=json&callback=wikiCallback';
         var $wikiElem = $('#wikipedia-links');
@@ -65,7 +96,6 @@ var ViewModel = function() {
                 clearTimeout(wikiRequestTimeout);
             }
         });
-        
 
         // load nytimes
         var $nytElem = $('#nytimes-articles');
@@ -135,6 +165,17 @@ function initMap() {
     showListings();
 }
 
+// Loop through the markers array and display them all.
+function showListings() {
+    var bounds = new google.maps.LatLngBounds();
+    // Extend the boundaries of the map for each marker and display the marker
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+        bounds.extend(markers[i].position);
+    }
+    map.fitBounds(bounds);
+}
+
 function makeMarkerIcon(markerColor) {
     var markerImage = new google.maps.MarkerImage(
         'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
@@ -192,15 +233,14 @@ function populateInfoWindow(marker, infowindow) {
         }
 }
 
-// Loop through the markers array and display them all.
-function showListings() {
-    var bounds = new google.maps.LatLngBounds();
-    // Extend the boundaries of the map for each marker and display the marker
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(map);
-        bounds.extend(markers[i].position);
-    }
-    map.fitBounds(bounds);
+/* Set the width of the side navigation to 250px */
+function openNav() {
+    document.getElementById("mySidenav").style.width = "300px";
+}
+
+/* Set the width of the side navigation to 0 */
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
 }
 
 ko.applyBindings(new ViewModel());
