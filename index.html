@@ -7,21 +7,24 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 <body>
-    <span id="open" onclick="openNav()">open sidebar</span>
     <div class="container">
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <div class="places">
                 <h2>Place List</h2>
+                
                 <ul data-bind="foreach: placeList">
                     <li id="place">
-                        Place # <span data-bind="text: id"></span>
-                        <button data-bind="text: title, click: $parent.setPlace"></button>
+                        <span data-bind="text: title, click: $parent.setPlace"></span>
                     </li>
                 </ul>
                 <hr>
             </div>
             <div class="selected">
+                <div class="filter">
+                    <input id="filter-text" type="text" placeholder="Filter places">
+                    <input id="filter" type="button" value="Filter">
+                </div>
                 <span>Selected:</span>
                 <span class="selectedplace" data-bind="with:currentPlace">
                     <span data-bind="text: title">

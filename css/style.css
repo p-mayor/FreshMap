@@ -2,6 +2,8 @@ html,
 body {
   font-family: 'Open Sans', sans-serif;
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 #map {
@@ -10,19 +12,15 @@ body {
   left: 0px;
   position: absolute;
   right: 0px;
-  z-index: -1;
 }
 
-.container {
-  display: flex;
-  height: 100%;
-}
 
 ul {
   list-style: none;
 }
 
-h2 {
+h3, h2 {
+  padding: 10px;
 }
 
 #pano {
@@ -53,6 +51,7 @@ h2 {
 }
 
 .selected {
+  padding: 10px;
 }
 
 .wiki {
@@ -71,13 +70,12 @@ h2 {
     height: 100%; 
     width: 0; 
     position: fixed; 
-    z-index: 1; 
     top: 0;
     left: 0;
     overflow-x: hidden; 
-    padding-top: 60px; 
     transition: 0.5s;
     background-color: white;
+    z-index: 1;
 }
 
 .sidenav .closebtn {
@@ -90,5 +88,8 @@ h2 {
 
 .open {
   position: absolute;
-  z-index: 2;
+}
+
+.filter {
+  padding: 10px;
 }
