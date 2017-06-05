@@ -13,7 +13,7 @@
             <div class="places">
                 <h2>Place List</h2>
                 
-                <ul data-bind="foreach: placeList">
+                <ul id="myUL" data-bind="foreach: placeList">
                     <li id="place">
                         <span data-bind="text: title, click: $parent.setPlace"></span>
                     </li>
@@ -22,8 +22,7 @@
             </div>
             <div class="selected">
                 <div class="filter">
-                    <input id="filter-text" type="text" placeholder="Filter places">
-                    <input id="filter" type="button" value="Filter">
+                    <input type="text" id="filterInput" onkeyup="filterList()" placeholder="Search for names..">
                 </div>
                 <span>Selected:</span>
                 <span class="selectedplace" data-bind="with:currentPlace">

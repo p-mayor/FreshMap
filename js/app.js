@@ -68,6 +68,7 @@ var ViewModel = function() {
     };
 
     this.loadData = function(clickedPlace) {
+        //if (clickedPlace.title != this.currentPlace.title) {
         var searchStr = clickedPlace.title();
         var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + searchStr +
             '&format=json&callback=wikiCallback';
@@ -104,6 +105,10 @@ var ViewModel = function() {
         
         $.getJSON(nytimesUrl, function(data){
             articles = data.response.docs;
+            status = data.response.status;
+            if (status == "error") {
+                console.log("error")
+            }
             for (var i = 0; i < articles.length; i++) {
                 var article = articles[i];
                 $nytElem.append('<li class="article">'+
@@ -115,8 +120,9 @@ var ViewModel = function() {
             $nytHeaderElem.text('New York Times Articles Could Not Be Loaded');
         });
         return false;
+        //};
     };
-}
+};
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -278,6 +284,26 @@ function openNav() {
 /* Set the width of the side navigation to 0 */
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
+}
+
+function filterList() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById('filterInput');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("myUL");
+    li = ul.getElementsByTagName('li');
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("span")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+            markers[i].setMap(map);
+        } else {
+            li[i].style.display = "none";
+            markers[i].setMap(null);
+        }
+    }
 }
 
 ko.applyBindings(new ViewModel());
