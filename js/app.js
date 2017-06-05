@@ -2,6 +2,7 @@
 var map;
 var markers = [];
 
+
 // Data model
 var locations = [
     {
@@ -51,6 +52,141 @@ var Place = function(data) {
 var ViewModel = function() {
 	var self = this
 
+    initMap = function() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 47.6063829, lng: -122.3355774},
+            zoom: 13,
+            mapTypeControl: false
+        });
+        
+        // Create the DIV to hold the control and call the CenterControl()
+        // constructor passing in this DIV.
+        var sideControlDiv = document.createElement('div');
+        var sideControl = new SideControl(sideControlDiv, map);
+
+        // add button to open sidebar to map
+        sideControlDiv.index = 1;
+        map.controls[google.maps.ControlPosition.LEFT_CENTER].push(sideControlDiv);
+
+        // Create default icon
+        var defaultIcon = makeMarkerIcon('0091ff');
+
+        // Create highlight icon
+        var highlightedIcon = makeMarkerIcon('FFFF24');
+
+        // Initiliaze the info window
+        var largeInfowindow = new google.maps.InfoWindow();
+
+        // iterate through locations to create global markers array
+        for (var i = 0; i < locations.length; i++) {
+            var position = locations[i].location;
+            var title = locations[i].title;
+            var marker = new google.maps.Marker({
+                position: position,
+                title: title,
+                animation: google.maps.Animation.DROP,
+                icon: defaultIcon,
+                id: locations[i].id,
+                });
+            
+            marker.addListener('mouseover', function() {
+                this.setIcon(highlightedIcon);
+            });
+
+            marker.addListener('mouseout', function() {
+                this.setIcon(defaultIcon);
+            });
+
+            marker.addListener('click', function() {
+                populateInfoWindow(this, largeInfowindow);
+            });
+
+            markers.push(marker);
+        }
+        var bounds = new google.maps.LatLngBounds();
+        // Extend the boundaries of the map for each marker and display the marker
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+            bounds.extend(markers[i].position);
+        }
+        map.fitBounds(bounds);
+    }
+
+    populateInfoWindow = function(marker, infowindow) {
+        // Check to make sure the infowindow is not already opened on this marker.
+        if (infowindow.marker != marker) {
+            // Clear the infowindow content to give the streetview time to load.
+            infowindow.setContent('');
+            infowindow.marker = marker;
+
+            // Make sure the marker property is cleared if the infowindow is closed.
+            infowindow.addListener('closeclick', function() {
+                infowindow.marker = null;
+            });
+
+            var streetViewService = new google.maps.StreetViewService();
+            var radius = 50;
+
+            // In case the status is OK, which means the pano was found, compute the
+            // position of the streetview image, then calculate the heading, then get a
+            // panorama from that and set the options
+            function getStreetView(data, status) {
+              if (status == google.maps.StreetViewStatus.OK) {
+                var nearStreetViewLocation = data.location.latLng;
+                var heading = google.maps.geometry.spherical.computeHeading(
+                    nearStreetViewLocation, marker.position);
+                infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
+                var panoramaOptions = {
+                    position: nearStreetViewLocation,
+                    pov: {
+                        heading: heading,
+                        pitch: 30
+                        }
+                };
+                var panorama = new google.maps.StreetViewPanorama(
+                    document.getElementById('pano'), panoramaOptions);
+              } else {
+                infowindow.setContent('<div>' + marker.title + '</div>' +
+                    '<div>No Street View Found</div>');
+              }
+            }
+            // Use streetview service to get the closest streetview image within
+            // 50 meters of the markers position
+            streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+            // Open the infowindow on the correct marker.
+            infowindow.open(map, marker);
+            }
+    }
+
+    SideControl = function(controlDiv, map) {
+        // Set CSS for the control border.
+        var controlUI = document.createElement('div');
+        controlUI.style.backgroundColor = '#fff';
+        controlUI.style.border = '2px solid #fff';
+        controlUI.style.borderRadius = '3px';
+        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.marginBottom = '22px';
+        controlUI.style.textAlign = 'center';
+        controlUI.title = 'Click to open the sidebar';
+        controlDiv.appendChild(controlUI);
+
+        // Set CSS for the control interior.
+        var controlText = document.createElement('div');
+        controlText.style.color = 'rgb(25,25,25)';
+        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+        controlText.style.fontSize = '16px';
+        controlText.style.lineHeight = '38px';
+        controlText.style.paddingLeft = '5px';
+        controlText.style.paddingRight = '5px';
+        controlText.innerHTML = 'Open Sidebar';
+        controlUI.appendChild(controlText);
+
+        controlUI.addEventListener('click', function() {
+            openNav()
+        });
+    }
+
 	this.placeList = ko.observableArray([]);
 
     // create a new Place for each item in placeList
@@ -63,12 +199,15 @@ var ViewModel = function() {
 
 
 	this.setPlace = function(clickedPlace) {
-		self.currentPlace(clickedPlace);
-        self.loadData(clickedPlace);
+        var largeInfowindow = new google.maps.InfoWindow();
+        if (clickedPlace != self.currentPlace()) {
+            self.currentPlace(clickedPlace);
+            self.loadData(clickedPlace);
+            populateInfoWindow(markers[self.currentPlace().id()-1], largeInfowindow);
+        }
     };
 
     this.loadData = function(clickedPlace) {
-        //if (clickedPlace.title != this.currentPlace.title) {
         var searchStr = clickedPlace.title();
         var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + searchStr +
             '&format=json&callback=wikiCallback';
@@ -120,11 +259,31 @@ var ViewModel = function() {
             $nytHeaderElem.text('New York Times Articles Could Not Be Loaded');
         });
         return false;
-        //};
     };
+
+    filterList = function() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById('filterInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("span")[0];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+                markers[i].setMap(map);
+            } else {
+                li[i].style.display = "none";
+                markers[i].setMap(null);
+            }
+        }
+    }
+
 };
 
-function initMap() {
+/*function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 47.6063829, lng: -122.3355774},
         zoom: 13,
@@ -136,6 +295,7 @@ function initMap() {
     var sideControlDiv = document.createElement('div');
     var sideControl = new SideControl(sideControlDiv, map);
 
+    // add button to open sidebar to map
     sideControlDiv.index = 1;
     map.controls[google.maps.ControlPosition.LEFT_CENTER].push(sideControlDiv);
 
@@ -177,8 +337,8 @@ function initMap() {
 
     showListings();
 }
-
-
+*/
+/*
 function SideControl(controlDiv, map) {
     // Set CSS for the control border.
     var controlUI = document.createElement('div');
@@ -207,8 +367,9 @@ function SideControl(controlDiv, map) {
         openNav()
     });
 }
-
+*/
 // Loop through the markers array and display them all.
+/*
 function showListings() {
     var bounds = new google.maps.LatLngBounds();
     // Extend the boundaries of the map for each marker and display the marker
@@ -218,7 +379,7 @@ function showListings() {
     }
     map.fitBounds(bounds);
 }
-
+*/
 function makeMarkerIcon(markerColor) {
     var markerImage = new google.maps.MarkerImage(
         'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
@@ -230,6 +391,7 @@ function makeMarkerIcon(markerColor) {
     return markerImage;
 }
 
+/*
 function populateInfoWindow(marker, infowindow) {
     // Check to make sure the infowindow is not already opened on this marker.
     if (infowindow.marker != marker) {
@@ -274,7 +436,7 @@ function populateInfoWindow(marker, infowindow) {
         // Open the infowindow on the correct marker.
         infowindow.open(map, marker);
         }
-}
+}*/
 
 /* Set the width of the side navigation to 250px */
 function openNav() {
@@ -286,25 +448,6 @@ function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
 
-function filterList() {
-    var input, filter, ul, li, a, i;
-    input = document.getElementById('filterInput');
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("myUL");
-    li = ul.getElementsByTagName('li');
-
-    // Loop through all list items, and hide those who don't match the search query
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("span")[0];
-        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-            markers[i].setMap(map);
-        } else {
-            li[i].style.display = "none";
-            markers[i].setMap(null);
-        }
-    }
-}
 
 ko.applyBindings(new ViewModel());
 
