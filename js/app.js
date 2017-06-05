@@ -69,13 +69,13 @@ var ViewModel = function() {
         map.controls[google.maps.ControlPosition.LEFT_CENTER].push(sideControlDiv);
 
         // Create default icon
-        var defaultIcon = makeMarkerIcon('0091ff');
+        defaultIcon = makeMarkerIcon('0091ff');
 
         // Create highlight icon
-        var highlightedIcon = makeMarkerIcon('FFFF24');
+        highlightedIcon = makeMarkerIcon('FFFF24');
 
         // Initiliaze the info window
-        var largeInfowindow = new google.maps.InfoWindow();
+        largeInfowindow = new google.maps.InfoWindow();
 
         // iterate through locations to create global markers array
         for (var i = 0; i < locations.length; i++) {
@@ -114,6 +114,7 @@ var ViewModel = function() {
 
     populateInfoWindow = function(marker, infowindow) {
         // Check to make sure the infowindow is not already opened on this marker.
+
         if (infowindow.marker != marker) {
             // Clear the infowindow content to give the streetview time to load.
             infowindow.setContent('');
@@ -199,11 +200,16 @@ var ViewModel = function() {
 
 
 	this.setPlace = function(clickedPlace) {
-        var largeInfowindow = new google.maps.InfoWindow();
+        // prevent multiple clicks on same place
         if (clickedPlace != self.currentPlace()) {
+            if (self.currentPlace()) {
+                markers[self.currentPlace().id()-1].setIcon(defaultIcon);
+            }
             self.currentPlace(clickedPlace);
             self.loadData(clickedPlace);
-            populateInfoWindow(markers[self.currentPlace().id()-1], largeInfowindow);
+            m = markers[self.currentPlace().id()-1];
+            populateInfoWindow(m, largeInfowindow);
+            m.setIcon(highlightedIcon);
         }
     };
 
