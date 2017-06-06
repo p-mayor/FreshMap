@@ -8,22 +8,19 @@
 </head>
 <body>
     <div class="container">
-        <div id="mySidenav" class="sidenav">
+        <div id="Sidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <div class="places">
                 <h2>Place List</h2>
-                
-                <ul id="myUL" data-bind="foreach: placeList">
+                <ul id="UL" class="places" data-bind="foreach: placeList">
                     <li id="place">
                         <span data-bind="text: title, click: $parent.setPlace"></span>
                     </li>
                 </ul>
-                <hr>
-            </div>
-            <div class="selected">
                 <div class="filter">
-                    <input type="text" id="filterInput" onkeyup="filterList()" placeholder="Search for places...">
+                    <input type="text" id="filterInput" onkeyup="filterList()" placeholder="Filter places...">
                 </div>
+                <hr>
+            <div class="selected">
                 <span>Selected:</span>
                 <span class="selectedplace" data-bind="with:currentPlace">
                     <span data-bind="text: title">

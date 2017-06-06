@@ -48,6 +48,8 @@ h3, h2 {
 
 .places {
   display: block;
+  height: 10%;
+  overflow: scroll;
 }
 
 .selected {
@@ -91,5 +93,5 @@ h3, h2 {
 }
 
 .filter {
-  padding: 10px;
+  padding-left: 40px;
 }
