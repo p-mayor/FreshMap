@@ -50,6 +50,8 @@ h3, h2 {
   display: block;
   height: 10%;
   overflow: scroll;
+  overflow-x: hidden;
+  margin: 0px;
 }
 
 .selected {

@@ -113,6 +113,9 @@ var ViewModel = function() {
             //});
 
             marker.addListener('click', function() {
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setIcon(defaultIcon)
+                }
                 populateInfoWindow(this, largeInfowindow);
                 this.setIcon(highlightedIcon);
             });
@@ -174,6 +177,17 @@ var ViewModel = function() {
             // Open the infowindow on the correct marker.
             infowindow.open(map, marker);
             }
+    }
+
+    makeMarkerIcon = function(markerColor) {
+        var markerImage = new google.maps.MarkerImage(
+            'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
+            '|40|_|%E2%80%A2',
+            new google.maps.Size(21, 34),
+            new google.maps.Point(0, 0),
+            new google.maps.Point(10, 34),
+            new google.maps.Size(21,34));
+        return markerImage;
     }
 
     SideControl = function(controlDiv, map) {
@@ -305,7 +319,7 @@ var ViewModel = function() {
     }
 
 };
-
+/*
 function makeMarkerIcon(markerColor) {
     var markerImage = new google.maps.MarkerImage(
         'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
@@ -315,7 +329,7 @@ function makeMarkerIcon(markerColor) {
         new google.maps.Point(10, 34),
         new google.maps.Size(21,34));
     return markerImage;
-}
+}*/
 
 /* Set the width of the side navigation to 250px */
 function openNav() {
