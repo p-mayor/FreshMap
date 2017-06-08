@@ -35,7 +35,6 @@ h3, h2 {
 .places {
   display: block;
   height: 10%;
-  overflow: scroll;
   overflow-x: hidden;
   margin: 0px;
 }

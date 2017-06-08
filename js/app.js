@@ -298,7 +298,7 @@ var ViewModel = function() {
                 '</li>');
             };
         }).error(function(e){
-            $nytHeaderElem.text('New York Times Articles Could Not Be Loaded');
+            $nytElem.text('New York Times Articles Could Not Be Loaded');
         });
         return false;
     };
