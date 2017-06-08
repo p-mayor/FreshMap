@@ -13,7 +13,7 @@
                 <h2>Place List</h2>
                 <ul id="UL" class="places" data-bind="foreach: placeList">
                     <li id="place">
-                        <span data-bind="text: title, click: $parent.setPlace"></span>
+                        <span data-bind="text: title, click: $parent.setPlace, visible: match"></span>
                     </li>
                 </ul>
                 <div class="filter">

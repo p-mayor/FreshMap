@@ -62,6 +62,7 @@ var Place = function(data) {
 	this.title = ko.observable(data.title);
 	this.location = ko.observable(data.location);
     this.id = ko.observable(data.id)
+    this.match = ko.observable(true)
 }
 
 var ViewModel = function() {
@@ -299,37 +300,23 @@ var ViewModel = function() {
     };
 
     filterList = function() {
-        var input, filter, ul, li, a, i;
+        var input, filter, a, i;
         input = document.getElementById('filterInput');
         filter = input.value.toUpperCase();
-        ul = document.getElementById("UL");
-        li = ul.getElementsByTagName('li');
+        li = self.placeList()
 
-        // Loop through all list items, and hide those who don't match the search query
         for (i = 0; i < li.length; i++) {
-            a = li[i].getElementsByTagName("span")[0];
-            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
+            a = String(li[i].title())
+            if (a.toUpperCase().indexOf(filter) > -1) {
+                li[i].match(true);
                 markers[i].setMap(map);
             } else {
-                li[i].style.display = "none";
+                li[i].match(false)
                 markers[i].setMap(null);
             }
         }
     }
-
 };
-/*
-function makeMarkerIcon(markerColor) {
-    var markerImage = new google.maps.MarkerImage(
-        'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
-        '|40|_|%E2%80%A2',
-        new google.maps.Size(21, 34),
-        new google.maps.Point(0, 0),
-        new google.maps.Point(10, 34),
-        new google.maps.Size(21,34));
-    return markerImage;
-}*/
 
 /* Set the width of the side navigation to 250px */
 function openNav() {
