@@ -59,10 +59,12 @@ h3, h2 {
 }
 
 .wiki {
+  display: block;
   height: 20%;
 }
 
 .nyt {
+  display: block;
   height: 20%;
 }
 
@@ -82,12 +84,11 @@ h3, h2 {
     z-index: 1;
 }
 
-.sidenav .closebtn {
+.closebtn {
     position: absolute;
     top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
+    right: 5px;
+    font-size: 30px;
 }
 
 .open {

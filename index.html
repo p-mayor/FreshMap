@@ -2,46 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seattle Stuffs</title>
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <div id="Sidenav" class="sidenav">
+            <div class="panel panel-default">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                <h2>Place List</h2>
-                <ul id="UL" class="places" data-bind="foreach: placeList">
-                    <li id="place">
-                        <span data-bind="text: title, click: $parent.setPlace, visible: match"></span>
-                    </li>
-                </ul>
+                <div class="panel-heading">Place List</div>
+                <div class="panel-body">
+                    <ul id="UL" class="places" data-bind="foreach: placeList">
+                        <li id="place">
+                            <span data-bind="text: title, click: $parent.setPlace, visible: match"></span>
+                        </li>
+                    </ul>
+                </div>
                 <div class="filter">
                     <input type="text" id="filterInput" onkeyup="filterList()" placeholder="Filter places...">
                 </div>
-                <hr>
-            <div class="selected">
-                <span>Selected:</span>
-                <span class="selectedplace" data-bind="with:currentPlace">
-                    <span data-bind="text: title">
-                    </span>
-                </span>
             </div>
-            <hr>
-            <div class="wiki" id="wiki">
-                <h3>Wikipedia results:</h3>
-                <ul id="wikipedia-links">
-                    Select a location to see wikipedia results.
-                </ul>  
+            <div class="panel panel-default">
+                <div class="panel-heading">Selected:</div>
+                <div class="panel-body" data-bind="with:currentPlace">
+                    <div data-bind="text: title">
+                    </div>
+                </div>
             </div>
-            <hr>
-            <div class="nyt">
-                <h3 id="nytimes-header">
+            <div class="panel panel-default" id="wiki">
+                <div class="panel-heading">
+                    Wikipedia results:
+                </div>
+                <div class="panel-body">
+                    <ul id="wikipedia-links">
+                        Select a location to see wikipedia results.
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" id="nytimes-header">
                     New York Times Articles:
-                </h3>
-                <ul id="nytimes-articles" class="article-list">
-                    Select a location to see NY Times results.
-                </ul>
+                </div>
+                <div class="panel-body">
+                    <ul id="nytimes-articles" class="article-list">
+                        Select a location to see NY Times results.
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="map" id="map"></div>
