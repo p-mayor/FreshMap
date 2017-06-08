@@ -63,7 +63,6 @@ var Place = function(data) {
 
 var ViewModel = function() {
 	var self = this
-    
     var map;
     var markers = [];
 
@@ -102,14 +101,6 @@ var ViewModel = function() {
                 icon: defaultIcon,
                 id: locations[i].id,
                 });
-            
-            //marker.addListener('mouseover', function() {
-            //    this.setIcon(highlightedIcon);
-            //});
-
-            //marker.addListener('mouseout', function() {
-            //    this.setIcon(defaultIcon);
-            //});
 
             marker.addListener('click', function() {
                 for (var i = 0; i < markers.length; i++) {
@@ -191,6 +182,7 @@ var ViewModel = function() {
         return markerImage;
     }
 
+    // create button to open sidebar overlaid onto the map
     SideControl = function(controlDiv, map) {
         // Set CSS for the control border.
         var controlUI = document.createElement('div');
@@ -218,6 +210,14 @@ var ViewModel = function() {
         controlUI.addEventListener('click', function() {
             openNav()
         });
+    }
+
+    openNav = function() {
+        document.getElementById("Sidenav").style.width = "250px";
+    }
+
+    closeNav = function() {
+        document.getElementById("Sidenav").style.width = "0";
     }
 
 	this.placeList = ko.observableArray([]);
@@ -321,17 +321,6 @@ var ViewModel = function() {
         }
     }
 };
-
-/* Set the width of the side navigation to 250px */
-function openNav() {
-    document.getElementById("Sidenav").style.width = "250px";
-}
-
-/* Set the width of the side navigation to 0 */
-function closeNav() {
-    document.getElementById("Sidenav").style.width = "0";
-}
-
 
 ko.applyBindings(new ViewModel());
 
