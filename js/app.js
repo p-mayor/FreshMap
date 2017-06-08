@@ -63,6 +63,7 @@ var Place = function(data) {
 	this.location = ko.observable(data.location);
     this.id = ko.observable(data.id)
     this.match = ko.observable(true)
+    this.selected = ko.observable(false)
 }
 
 var ViewModel = function() {
@@ -228,16 +229,21 @@ var ViewModel = function() {
 	});	
 
     // initiate currentPlace observable
-	this.currentPlace = ko.observable(this.placeList[0]);
+	this.currentPlace = ko.observable(self.placeList[0]);
 
 
 	this.setPlace = function(clickedPlace) {
+        if (self.currentPlace()) {
+            self.currentPlace().selected(false)
+        }
         // prevent multiple clicks on same place
         if (clickedPlace != self.currentPlace()) {
             if (self.currentPlace()) {
                 markers[self.currentPlace().id()-1].setIcon(defaultIcon);
             }
+            //self.currentPlace().selected(false)
             self.currentPlace(clickedPlace);
+            self.currentPlace().selected(true);
             self.loadData(clickedPlace);
             m = markers[self.currentPlace().id()-1];
             populateInfoWindow(m, largeInfowindow);
@@ -320,7 +326,7 @@ var ViewModel = function() {
 
 /* Set the width of the side navigation to 250px */
 function openNav() {
-    document.getElementById("Sidenav").style.width = "30%";
+    document.getElementById("Sidenav").style.width = "250px";
 }
 
 /* Set the width of the side navigation to 0 */
