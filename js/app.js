@@ -231,13 +231,11 @@ var ViewModel = function() {
 	this.currentPlace = ko.observable(self.placeList[0]);
 
 	this.setPlace = function(clickedPlace) {
-        if (self.currentPlace()) {
-            self.currentPlace().selected(false)
-        }
         // prevent multiple clicks on same place
         if (clickedPlace != self.currentPlace()) {
             if (self.currentPlace()) {
                 markers[self.currentPlace().id()].setIcon(defaultIcon);
+                self.currentPlace().selected(false)
             }
             self.currentPlace(clickedPlace);
             if (self.currentPlace()) {
