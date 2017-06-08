@@ -59,10 +59,10 @@ var Place = function(data) {
     this.id = ko.observable(data.id)
     this.match = ko.observable(true)
     this.selected = ko.observable(false)
-}
+};
 
 var ViewModel = function() {
-	var self = this
+	var self = this;
     var map;
     var markers = [];
 
@@ -120,7 +120,7 @@ var ViewModel = function() {
             bounds.extend(markers[i].position);
         }
         map.fitBounds(bounds);
-    }
+    };
 
     populateInfoWindow = function(marker, infowindow) {
         // Check to make sure the infowindow is not already opened on this marker.
@@ -167,7 +167,7 @@ var ViewModel = function() {
             // Open the infowindow on the correct marker.
             infowindow.open(map, marker);
         }
-    }
+    };
 
     makeMarkerIcon = function(markerColor) {
         var markerImage = new google.maps.MarkerImage(
@@ -178,7 +178,7 @@ var ViewModel = function() {
             new google.maps.Point(10, 34),
             new google.maps.Size(21,34));
         return markerImage;
-    }
+    };
 
     // create button to open sidebar overlaid onto the map
     SideControl = function(controlDiv, map) {
@@ -208,15 +208,15 @@ var ViewModel = function() {
         controlUI.addEventListener('click', function() {
             openNav()
         });
-    }
+    };
 
     openNav = function() {
         document.getElementById("Sidenav").style.width = "250px";
-    }
+    };
 
     closeNav = function() {
         document.getElementById("Sidenav").style.width = "0";
-    }
+    };
 
 	this.placeList = ko.observableArray([]);
 
@@ -319,7 +319,7 @@ var ViewModel = function() {
                 markers[i].setMap(null);
             }
         }
-    }
+    };
 };
 
 ko.applyBindings(new ViewModel());
