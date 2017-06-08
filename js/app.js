@@ -220,14 +220,14 @@ var ViewModel = function() {
 
 	this.placeList = ko.observableArray([]);
 
-    // create a new Place for each item in placeList
+    // create a new Place from each item and add to placeList
 	locations.forEach(function(datItem){
 		self.placeList.push( new Place(datItem) );
 	});	
 
-    // initiate currentPlace observable
 	this.currentPlace = ko.observable(self.placeList[0]);
 
+    // update current place when a place is clicked
 	this.setPlace = function(clickedPlace) {
         // prevent multiple clicks on same place
         if (clickedPlace != self.currentPlace()) {
@@ -247,6 +247,7 @@ var ViewModel = function() {
         }
     };
 
+    // load wiki and NYT API data
     this.loadData = function(clickedPlace) {
         var searchStr = clickedPlace.title();
         var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + searchStr +
@@ -301,8 +302,9 @@ var ViewModel = function() {
         return false;
     };
 
+    // filter places
     filterList = function() {
-        var input, filter, a, i;
+        var input, filter, a, i, li;
         input = document.getElementById('filterInput');
         filter = input.value.toUpperCase();
         li = self.placeList()
