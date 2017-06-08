@@ -1,52 +1,52 @@
 // Data model
 var locations = [
     {
-        title: 'Space Needle',
+        title: "Space Needle",
         location: {lat: 47.6205, lng: -122.3493},
         id: 0
     },
     {
-        title: 'Uwajimaya',
+        title: "Uwajimaya",
         location: {lat: 47.5968569, lng: -122.3271645},
         id: 1
     },
     {
-        title: 'Fremont Troll',
+        title: "Fremont Troll",
         location: {lat: 47.650934, lng: -122.347325},
         id: 2
     },
     {
-        title: 'Volunteer Park',
+        title: "Volunteer Park",
         location: {lat: 47.631877, lng:-122.315398},
         id: 3
     },
     {
-        title: 'Discovery Park',
+        title: "Discovery Park",
         location: {lat: 47.6580719, lng: -122.426235},
         id: 4
     },
     {
-        title: 'Jack Block Park',
+        title: "Jack Block Park",
         location: {lat: 47.583620, lng: -122.369233},
         id: 5
     },
     {
-        title: 'Green Lake Park',
+        title: "Green Lake Park",
         location: {lat: 47.682384, lng: -122.333524},
         id: 6
     },
     {
-        title: 'Seattle Public Library',
+        title: "Seattle Public Library",
         location: {lat: 47.606716, lng: -122.332453},
         id: 7
     },
     {
-        title: 'Woodland Park Zoo',
+        title: "Woodland Park Zoo",
         location: {lat: 47.668292, lng:-122.350596},
         id: 8
     },
     {
-        title: 'Gas Works Park',
+        title: "Gas Works Park",
         location: {lat: 47.645689, lng:-122.334344},
         id: 9
     }
@@ -56,9 +56,9 @@ var locations = [
 var Place = function(data) {
 	this.title = ko.observable(data.title);
 	this.location = ko.observable(data.location);
-    this.id = ko.observable(data.id)
-    this.match = ko.observable(true)
-    this.selected = ko.observable(false)
+    this.id = ko.observable(data.id);
+    this.match = ko.observable(true);
+    this.selected = ko.observable(false);
 };
 
 var ViewModel = function() {
@@ -103,9 +103,9 @@ var ViewModel = function() {
                 });
             marker.addListener('click', function() {
                 for (var i = 0; i < markers.length; i++) {
-                    markers[i].setIcon(defaultIcon)
+                    markers[i].setIcon(defaultIcon);
                 }
-                self.setPlace(self.placeList()[this.id])
+                self.setPlace(self.placeList()[this.id]);
                 populateInfoWindow(this, largeInfowindow);
                 this.setIcon(highlightedIcon);
             });
@@ -141,7 +141,7 @@ var ViewModel = function() {
             // In case the status is OK, which means the pano was found, compute the
             // position of the streetview image, then calculate the heading, then get a
             // panorama from that and set the options
-            function getStreetView(data, status) {
+            getStreetView = function(data, status) {
                 if (status == google.maps.StreetViewStatus.OK) {
                     var nearStreetViewLocation = data.location.latLng;
                     var heading = google.maps.geometry.spherical.computeHeading(
@@ -160,7 +160,7 @@ var ViewModel = function() {
                     infowindow.setContent('<div>' + marker.title + '</div>' +
                         '<div>No Street View Found</div>');
                 }
-            }
+            };
             // Use streetview service to get the closest streetview image within
             // 50 meters of the markers position
             streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
@@ -206,7 +206,7 @@ var ViewModel = function() {
         controlUI.appendChild(controlText);
 
         controlUI.addEventListener('click', function() {
-            openNav()
+            openNav();
         });
     };
 
@@ -233,7 +233,7 @@ var ViewModel = function() {
         if (clickedPlace != self.currentPlace()) {
             if (self.currentPlace()) {
                 markers[self.currentPlace().id()].setIcon(defaultIcon);
-                self.currentPlace().selected(false)
+                self.currentPlace().selected(false);
             }
             self.currentPlace(clickedPlace);
             if (self.currentPlace()) {
@@ -271,7 +271,7 @@ var ViewModel = function() {
                     articleStr = articleList[i];
                     var url = 'http://en.wikipedia.org/wiki/' + articleStr;
                     $wikiElem.append('<li><a href="' + url + '">' + articleStr + '</a></li>');
-                };
+                }
                 // clear timeout so it doesnt reset the page
                 clearTimeout(wikiRequestTimeout);
             }
@@ -282,12 +282,11 @@ var ViewModel = function() {
         $nytElem.text("");
         var nytimesUrl = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=' +
             searchStr + '&sort=newest&api-key=bdd041098e804a6781c9e0b7079fa316';
-        
         $.getJSON(nytimesUrl, function(data){
             articles = data.response.docs;
             status = data.response.status;
             if (status == "error") {
-                console.log("error")
+                console.log("error");
             }
             for (var i = 0; i < articles.length; i++) {
                 var article = articles[i];
@@ -295,7 +294,7 @@ var ViewModel = function() {
                     '<a href="'+article.web_url+'">'+article.headline.main+'</a>'+
                     '<p>' + article.snippet + '</p>'+
                 '</li>');
-            };
+            }
         }).error(function(e){
             $nytElem.text('New York Times Articles Could Not Be Loaded');
         });
@@ -307,15 +306,15 @@ var ViewModel = function() {
         var input, filter, a, i, li;
         input = document.getElementById('filterInput');
         filter = input.value.toUpperCase();
-        li = self.placeList()
+        li = self.placeList();
 
         for (i = 0; i < li.length; i++) {
-            a = String(li[i].title())
+            a = String(li[i].title());
             if (a.toUpperCase().indexOf(filter) > -1) {
                 li[i].match(true);
                 markers[i].setMap(map);
             } else {
-                li[i].match(false)
+                li[i].match(false);
                 markers[i].setMap(null);
             }
         }
