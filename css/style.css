@@ -28,20 +28,6 @@ h3, h2 {
   height: 200px;
 }
 
-#wikipedia-links {
-  height: 60%;
-  overflow: scroll;
-  overflow-x: hidden;
-  max-width: 350px;
-}
-
-#nytimes-articles {
-  height: 100%;
-  overflow: scroll;
-  overflow-x: hidden;
-  max-width: 350px;
-}
-
 .sidebar {
   max-width: 350px;
 }
@@ -52,6 +38,10 @@ h3, h2 {
   overflow: scroll;
   overflow-x: hidden;
   margin: 0px;
+}
+
+.place:hover {
+  color: blue;
 }
 
 .selected {

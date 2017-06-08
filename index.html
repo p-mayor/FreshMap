@@ -16,8 +16,8 @@
                 <div class="panel-heading">Place List</div>
                 <div class="panel-body">
                     <ul id="UL" class="places" data-bind="foreach: placeList">
-                        <li id="place">
-                            <span data-bind="text: title, click: $parent.setPlace, visible: match, style: { color: selected() ? 'red' : 'black'}"></span>
+                        <li class="place" id="place">
+                            <span data-bind="text: title, click: $parent.setPlace, visible: match, style: { fontWeight: selected() ? 'bold' : 'normal'}"></span>
                         </li>
                     </ul>
                 </div>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="panel-body">
                     <ul id="wikipedia-links">
-                        Select a location to see wikipedia results.
+                        Select a place
                     </ul>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="panel-body">
                     <ul id="nytimes-articles" class="article-list">
-                        Select a location to see NY Times results.
+                        Select a place
                     </ul>
                 </div>
             </div>

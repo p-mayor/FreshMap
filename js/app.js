@@ -1,63 +1,58 @@
-// Store map and markers to use globally
-var map;
-var markers = [];
-
-
 // Data model
 var locations = [
     {
         title: 'Space Needle',
         location: {lat: 47.6205, lng: -122.3493},
-        id: 1
+        id: 0
     },
     {
         title: 'Uwajimaya',
         location: {lat: 47.5968569, lng: -122.3271645},
-        id: 2
+        id: 1
     },
     {
         title: 'Fremont Troll',
         location: {lat: 47.650934, lng: -122.347325},
-        id: 3
+        id: 2
     },
     {
         title: 'Volunteer Park',
         location: {lat: 47.631877, lng:-122.315398},
-        id: 4
+        id: 3
     },
     {
         title: 'Discovery Park',
         location: {lat: 47.6580719, lng: -122.426235},
-        id: 5
+        id: 4
     },
     {
         title: 'Jack Block Park',
         location: {lat: 47.583620, lng: -122.369233},
-        id: 6
+        id: 5
     },
     {
         title: 'Green Lake Park',
         location: {lat: 47.682384, lng: -122.333524},
-        id: 7
+        id: 6
     },
     {
         title: 'Seattle Public Library',
         location: {lat: 47.606716, lng: -122.332453},
-        id: 8
+        id: 7
     },
     {
         title: 'Woodland Park Zoo',
         location: {lat: 47.668292, lng:-122.350596},
-        id: 9
+        id: 8
     },
     {
         title: 'Gas Works Park',
         location: {lat: 47.645689, lng:-122.334344},
-        id: 10
+        id: 9
     }
 ];
 
-// create observables of data model
+// create observable objects of data model
 var Place = function(data) {
 	this.title = ko.observable(data.title);
 	this.location = ko.observable(data.location);
@@ -68,7 +63,11 @@ var Place = function(data) {
 
 var ViewModel = function() {
 	var self = this
+    
+    var map;
+    var markers = [];
 
+    // initiliaze google map
     initMap = function() {
         map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: 47.6063829, lng: -122.3355774},
@@ -85,16 +84,14 @@ var ViewModel = function() {
         sideControlDiv.index = 1;
         map.controls[google.maps.ControlPosition.LEFT_CENTER].push(sideControlDiv);
 
-        // Create default icon
+        // Create icons
         defaultIcon = makeMarkerIcon('0091ff');
-
-        // Create highlight icon
         highlightedIcon = makeMarkerIcon('FFFF24');
 
         // Initiliaze the info window
         largeInfowindow = new google.maps.InfoWindow();
 
-        // iterate through locations to create global markers array
+        // iterate through locations to create markers array
         for (var i = 0; i < locations.length; i++) {
             var position = locations[i].location;
             var title = locations[i].title;
@@ -118,13 +115,16 @@ var ViewModel = function() {
                 for (var i = 0; i < markers.length; i++) {
                     markers[i].setIcon(defaultIcon)
                 }
+                self.setPlace(self.placeList()[this.id])
                 populateInfoWindow(this, largeInfowindow);
                 this.setIcon(highlightedIcon);
             });
 
             markers.push(marker);
         }
+
         var bounds = new google.maps.LatLngBounds();
+
         // Extend the boundaries of the map for each marker and display the marker
         for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(map);
@@ -135,7 +135,6 @@ var ViewModel = function() {
 
     populateInfoWindow = function(marker, infowindow) {
         // Check to make sure the infowindow is not already opened on this marker.
-
         if (infowindow.marker != marker) {
             // Clear the infowindow content to give the streetview time to load.
             infowindow.setContent('');
@@ -231,7 +230,6 @@ var ViewModel = function() {
     // initiate currentPlace observable
 	this.currentPlace = ko.observable(self.placeList[0]);
 
-
 	this.setPlace = function(clickedPlace) {
         if (self.currentPlace()) {
             self.currentPlace().selected(false)
@@ -239,15 +237,17 @@ var ViewModel = function() {
         // prevent multiple clicks on same place
         if (clickedPlace != self.currentPlace()) {
             if (self.currentPlace()) {
-                markers[self.currentPlace().id()-1].setIcon(defaultIcon);
+                markers[self.currentPlace().id()].setIcon(defaultIcon);
             }
-            //self.currentPlace().selected(false)
             self.currentPlace(clickedPlace);
-            self.currentPlace().selected(true);
-            self.loadData(clickedPlace);
-            m = markers[self.currentPlace().id()-1];
-            populateInfoWindow(m, largeInfowindow);
-            m.setIcon(highlightedIcon);
+            if (self.currentPlace()) {
+                self.currentPlace().selected(true);
+                self.loadData(clickedPlace);
+                m = markers[self.currentPlace().id()];
+                populateInfoWindow(m, largeInfowindow);
+                m.setIcon(highlightedIcon);
+            }
+
         }
     };
 
