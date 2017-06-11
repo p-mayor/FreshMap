@@ -10,8 +10,8 @@
 </head>
 <body>
     <div class="container">
-        <div data-bind="style: {width: sideBarOpen() ? '250px' : '0px'}"class="sidenav">
-            <div class="panel panel-default">
+        <aside data-bind="style: {width: sideBarOpen() ? '250px' : '0px'}"class="sidenav">
+            <article class="panel panel-default">
                 <a href="javascript:void(0)" class="closebtn" data-bind="click: closeNav">
                     &times;
                 </a>
@@ -27,14 +27,14 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </article>
             <form action="#" class="filter">
                 <input type="search"
                 data-bind="value: query, valueUpdate: 'keyup'"
                 autocomplete="off" 
                 placeholder="Filter places...">
             </form>
-            <div class="panel panel-default">
+            <article class="panel panel-default">
                 <div class="panel-heading">
                     Wikipedia results:
                 </div>
@@ -43,8 +43,8 @@
                         <li data-bind="html: wikiStr"></li>
                     </ul>
                 </div>
-            </div>
-            <div class="panel panel-default">
+            </article>
+            <article class="panel panel-default">
                 <div class="panel-heading">
                     New York Times Articles:
                 </div>
@@ -53,8 +53,8 @@
                         <li data-bind="html: nytStr"></li>
                     </ul>
                 </div>
-            </div>
-        </div>
+            </article>
+        </aside>
         <div class="map" id="map"></div>
     </div>
 
