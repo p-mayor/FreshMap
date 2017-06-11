@@ -255,13 +255,10 @@ var ViewModel = function() {
         var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + searchStr +
             '&format=json&callback=wikiCallback';
 
-
         // start timeout in case of error
         var wikiRequestTimeout = setTimeout(function(){
             $wikiElem.text("failed to get wikipedia resources");
         }, 8000);
-
-        
 
         $.ajax({
             url: wikiUrl,
