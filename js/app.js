@@ -229,7 +229,7 @@ var viewModel = function() {
 		self.placeList.push( new Place(datItem) );
 	});	
 
-	this.currentPlace = ko.observable(self.placeList[0]);
+	this.currentPlace = ko.observable();
 
     // update current place when a place is clicked
 	this.setPlace = function(clickedPlace) {
@@ -307,24 +307,23 @@ var viewModel = function() {
     };
 
     // filter places
-    filterList = function() {
-        var input, filter, a, i, li;
-        input = document.getElementById('filterInput');
-        filter = input.value.toUpperCase();
-        li = self.placeList();
 
+    this.query = ko.observable('');
+
+    this.filterList = function(value) {
+        li = self.placeList();
         for (i = 0; i < li.length; i++) {
-            a = String(li[i].title);
-            if (a.toUpperCase().indexOf(filter) > -1) {
-                li[i].match(true);
-                markers[i].setMap(map);
+            if(li[i].title.toLowerCase().indexOf(value.toLowerCase()) > -1) {
+                self.placeList()[i].match(true);
             } else {
-                li[i].match(false);
-                markers[i].setMap(null);
+                self.placeList()[i].match(false);
             }
         }
     };
+
+    this.query.subscribe(this.filterList)
 };
 
+//viewModel().query.subscribe(viewModel().filterList);
 ko.applyBindings(new viewModel());
 
