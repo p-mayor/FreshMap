@@ -61,7 +61,7 @@ var Place = function(data) {
     this.selected = ko.observable(false);
 };
 
-var ViewModel = function() {
+var viewModel = function() {
 	var self = this;
     var map;
     var markers = [];
@@ -326,5 +326,5 @@ var ViewModel = function() {
     };
 };
 
-ko.applyBindings(new ViewModel());
+ko.applyBindings(new viewModel());
 
