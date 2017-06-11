@@ -76,11 +76,11 @@ var viewModel = function() {
         this.setIcon(highlightedIcon);
     };
 
-    googleError = function() {
+    var googleError = function() {
         window.alert("google maps API failed to load");
     };
 
-    populateInfoWindow = function(marker, infowindow) {
+    var populateInfoWindow = function(marker, infowindow) {
         // Check to make sure the infowindow is not already opened on this marker.
         if (infowindow.marker != marker) {
             // Clear the infowindow content to give the streetview time to load.
@@ -127,7 +127,7 @@ var viewModel = function() {
         }
     };
 
-    makeMarkerIcon = function(markerColor) {
+    var makeMarkerIcon = function(markerColor) {
         var markerImage = new google.maps.MarkerImage(
             'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
             '|40|_|%E2%80%A2',
@@ -140,7 +140,7 @@ var viewModel = function() {
 
     this.sideBarOpen = ko.observable(false);
     // create button to open sidebar
-    SideControl = function(controlDiv, map) {
+    var SideControl = function(controlDiv, map) {
         // Set CSS for the control border.
         var controlUI = document.createElement('div');
         controlUI.style.backgroundColor = '#fff';
@@ -169,7 +169,7 @@ var viewModel = function() {
         });
     };
 
-    closeNav = function() {
+    var closeNav = function() {
         self.sideBarOpen(false);
     };
 
@@ -253,6 +253,8 @@ var viewModel = function() {
 
     this.filterList = function(value) {
         li = self.placeList();
+        self.nytArr([{nytStr:"Select a place"}]);
+        self.wikiArr([{wikiStr:"Select a place"}]);
         for (i = 0; i < li.length; i++) {
             if(li[i].title.toLowerCase().indexOf(value.toLowerCase()) > -1) {
                 self.placeList()[i].match(true);
