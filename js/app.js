@@ -1,4 +1,7 @@
-//'use strict';
+'use strict';
+
+var initMap, highlightedIcon, defaultIcon;
+
 
 // create data model objects
 var Place = function(data) {
@@ -99,7 +102,7 @@ var viewModel = function() {
             // In case the status is OK, which means the pano was found, compute the
             // position of the streetview image, then calculate the heading, then get a
             // panorama from that and set the options
-            getStreetView = function(data, status) {
+            var getStreetView = function(data, status) {
                 if (status == google.maps.StreetViewStatus.OK) {
                     var nearStreetViewLocation = data.location.latLng;
                     var heading = google.maps.geometry.spherical.computeHeading(
@@ -184,6 +187,7 @@ var viewModel = function() {
 
     // update current place when a place is clicked
 	this.setPlace = function(clickedPlace) {
+        var m;
         // prevent multiple clicks on same place
         if (clickedPlace != self.currentPlace()) {
             if (self.currentPlace()) {
@@ -218,6 +222,7 @@ var viewModel = function() {
             jsonp: "callback",
         }).done(function( response ) {
             var articleList = response[1];
+            var articleStr;
             for (var i = 0; i < articleList.length/2; i++) {
                 articleStr = articleList[i];
                 var url = 'http://en.wikipedia.org/wiki/' + articleStr;
@@ -234,7 +239,7 @@ var viewModel = function() {
         var nytimesUrl = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=' +
             searchStr + '&sort=newest&api-key=bdd041098e804a6781c9e0b7079fa316';
         $.getJSON(nytimesUrl, function(data){
-            articles = data.response.docs;
+            var articles = data.response.docs;
             for (var i = 0; i < articles.length; i++) {
                 var article = articles[i];
                 self.nytArr.push({nytStr:'<li class="article">'+
@@ -252,10 +257,10 @@ var viewModel = function() {
     this.query = ko.observable('');
 
     this.filterList = function(value) {
-        li = self.placeList();
+        var li = self.placeList();
         self.nytArr([{nytStr:"Select a place"}]);
         self.wikiArr([{wikiStr:"Select a place"}]);
-        for (i = 0; i < li.length; i++) {
+        for (var i = 0; i < li.length; i++) {
             if(li[i].title.toLowerCase().indexOf(value.toLowerCase()) > -1) {
                 self.placeList()[i].match(true);
                 markers[i].setMap(map);
