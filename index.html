@@ -19,13 +19,11 @@
                     Place List
                 </div>
                 <div class="panel-body">
-                    <ul id="UL" class="places" data-bind="foreach: placeList">
-                        <li class="place">
-                            <span data-bind="text: title,
+                    <ul data-bind="foreach: placeList">
+                        <li data-bind="text: title,
                             click: $parent.setPlace,
                             visible: match,
                             style: { fontWeight: selected() ? 'bold' : 'normal'}">
-                            </span>
                         </li>
                     </ul>
                 </div>
