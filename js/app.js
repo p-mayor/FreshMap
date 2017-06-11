@@ -11,7 +11,7 @@ var viewModel = function() {
 	var self = this;
     var map;
     var markers = [];
-
+    
     // initiliaze google map
     initMap = function() {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -247,7 +247,7 @@ var viewModel = function() {
                     '<p>' + article.snippet + '</p>'+
                     '</li>'});
             }
-        }).error(function(e){
+        }).fail(function(e){
             self.nytArr.push({nytStr:'New York Times Articles Could Not Be Loaded'});
         });
         return false;
