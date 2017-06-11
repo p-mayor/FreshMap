@@ -247,7 +247,8 @@ var ViewModel = function() {
         }
     };
 
-    this.wikiArr = ko.observableArray([]);
+    this.wikiArr = ko.observableArray([{wikiStr:"Select a place"}]);
+    this.nytArr = ko.observableArray([{nytStr:"Select a place"}]);
 
     // load wiki and NYT API data
     this.loadData = function(clickedPlace) {
@@ -278,8 +279,8 @@ var ViewModel = function() {
         });
 
         // load nytimes
-        var $nytElem = $('#nytimes-articles');
-        $nytElem.text("");
+        this.nytArr([])
+
         var nytimesUrl = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=' +
             searchStr + '&sort=newest&api-key=bdd041098e804a6781c9e0b7079fa316';
         $.getJSON(nytimesUrl, function(data){
@@ -290,13 +291,13 @@ var ViewModel = function() {
             }
             for (var i = 0; i < articles.length; i++) {
                 var article = articles[i];
-                $nytElem.append('<li class="article">'+
+                self.nytArr.push({nytStr:'<li class="article">'+
                     '<a href="'+article.web_url+'">'+article.headline.main+'</a>'+
                     '<p>' + article.snippet + '</p>'+
-                '</li>');
+                    '</li>'});
             }
         }).error(function(e){
-            $nytElem.text('New York Times Articles Could Not Be Loaded');
+            self.nytArr.push({nytStr:'New York Times Articles Could Not Be Loaded'});
         });
         return false;
     };

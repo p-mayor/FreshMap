@@ -47,12 +47,12 @@
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading" id="nytimes-header">
+                <div class="panel-heading">
                     New York Times Articles:
                 </div>
                 <div class="panel-body">
-                    <ul id="nytimes-articles" class="article-list">
-                        Select a place
+                    <ul data-bind="foreach: nytArr">
+                        <li data-bind="html: nytStr"></li>
                     </ul>
                 </div>
             </div>
