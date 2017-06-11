@@ -12,20 +12,31 @@
     <div class="container">
         <div id="Sidenav" class="sidenav">
             <div class="panel panel-default">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                <div class="panel-heading">Place List</div>
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
+                    &times;
+                </a>
+                <div class="panel-heading">
+                    Place List
+                </div>
                 <div class="panel-body">
                     <ul id="UL" class="places" data-bind="foreach: placeList">
-                        <li class="place" id="place">
-                            <span data-bind="text: title, click: $parent.setPlace, visible: match, style: { fontWeight: selected() ? 'bold' : 'normal'}"></span>
+                        <li class="place">
+                            <span data-bind="text: title,
+                            click: $parent.setPlace,
+                            visible: match,
+                            style: { fontWeight: selected() ? 'bold' : 'normal'}">
+                            </span>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="filter">
-                <input type="text" id="filterInput" onkeyup="filterList()" placeholder="Filter places...">
+                <input type="text"
+                id="filterInput"
+                onkeyup="filterList()"
+                placeholder="Filter places...">
             </div>
-            <div class="panel panel-default" id="wiki">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     Wikipedia results:
                 </div>
