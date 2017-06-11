@@ -1,3 +1,5 @@
+//'use strict';
+
 // create data model objects
 var Place = function(data) {
 	this.title = data.title;
@@ -222,7 +224,7 @@ var viewModel = function() {
                 self.wikiArr.push({wikiStr:'<li><a href="' + url + '">' + articleStr + '</a></li>'});
             }
         }).fail(function(jqXHR, textStatus) {
-            self.wikiArr.push({nytStr:'New York Times Articles Could Not Be Loaded'});
+            self.wikiArr.push({wikiStr:'Wiki Data Could Not Be Loaded'});
         });
         
 
