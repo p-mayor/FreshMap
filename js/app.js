@@ -254,8 +254,10 @@ var viewModel = function() {
         for (i = 0; i < li.length; i++) {
             if(li[i].title.toLowerCase().indexOf(value.toLowerCase()) > -1) {
                 self.placeList()[i].match(true);
+                markers[i].setMap(map);
             } else {
                 self.placeList()[i].match(false);
+                markers[i].setMap(null);
             }
         }
     };
