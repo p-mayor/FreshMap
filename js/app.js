@@ -247,13 +247,14 @@ var ViewModel = function() {
         }
     };
 
-    this.wikiStr = ko.observable();
+    this.wikiArr = ko.observableArray([]);
 
     // load wiki and NYT API data
     this.loadData = function(clickedPlace) {
         var searchStr = clickedPlace.title;
         var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + searchStr +
             '&format=json&callback=wikiCallback';
+        this.wikiArr([])
 
         // start timeout in case of error
         var wikiRequestTimeout = setTimeout(function(){
@@ -269,7 +270,7 @@ var ViewModel = function() {
                 for (var i = 0; i < articleList.length/2; i++) {
                     articleStr = articleList[i];
                     var url = 'http://en.wikipedia.org/wiki/' + articleStr;
-                    self.wikiStr('<li><a href="' + url + '">' + articleStr + '</a></li>');
+                    self.wikiArr.push({wikiStr:'<li><a href="' + url + '">' + articleStr + '</a></li>'});
                 }
                 // clear timeout so it doesnt reset the page
                 clearTimeout(wikiRequestTimeout);
