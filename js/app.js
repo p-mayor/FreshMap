@@ -34,7 +34,7 @@ var viewModel = function() {
         highlightedIcon = makeMarkerIcon('FFFF24');
 
         // Initiliaze the info window
-        largeInfowindow = new google.maps.InfoWindow();
+        self.largeInfowindow = new google.maps.InfoWindow();
 
         // iterate through locations to create markers array
         for (var i = 0; i < locations.length; i++) {
@@ -52,7 +52,7 @@ var viewModel = function() {
                     markers[i].setIcon(defaultIcon);
                 }
                 self.setPlace(self.placeList()[this.id]);
-                populateInfoWindow(this, largeInfowindow);
+                populateInfoWindow(this, self.largeInfowindow);
                 this.setIcon(highlightedIcon);
             });
             markers.push(marker);
@@ -191,7 +191,7 @@ var viewModel = function() {
                 self.currentPlace().selected(true);
                 self.loadData(clickedPlace);
                 m = markers[self.currentPlace().id];
-                populateInfoWindow(m, largeInfowindow);
+                populateInfoWindow(m, self.largeInfowindow);
                 m.setIcon(highlightedIcon);
             }
 
@@ -231,10 +231,6 @@ var viewModel = function() {
             searchStr + '&sort=newest&api-key=bdd041098e804a6781c9e0b7079fa316';
         $.getJSON(nytimesUrl, function(data){
             articles = data.response.docs;
-            status = data.response.status;
-            if (status == "error") {
-                console.log("error");
-            }
             for (var i = 0; i < articles.length; i++) {
                 var article = articles[i];
                 self.nytArr.push({nytStr:'<li class="article">'+
