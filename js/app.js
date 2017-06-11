@@ -11,7 +11,7 @@ var viewModel = function() {
 	var self = this;
     var map;
     var markers = [];
-    
+
     // initiliaze google map
     initMap = function() {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -208,26 +208,21 @@ var viewModel = function() {
             '&format=json&callback=wikiCallback';
         this.wikiArr([])
 
-        // start timeout in case of error
-        var wikiRequestTimeout = setTimeout(function(){
-            self.wikiArr.push({wikiStr:'<li>Failed to load wiki resources</li>'});
-        }, 8000);
-
         $.ajax({
             url: wikiUrl,
             dataType: "jsonp",
             jsonp: "callback",
-            success: function( response ) {
-                var articleList = response[1];
-                for (var i = 0; i < articleList.length/2; i++) {
-                    articleStr = articleList[i];
-                    var url = 'http://en.wikipedia.org/wiki/' + articleStr;
-                    self.wikiArr.push({wikiStr:'<li><a href="' + url + '">' + articleStr + '</a></li>'});
-                }
-                // clear timeout so it doesnt reset the page
-                clearTimeout(wikiRequestTimeout);
+        }).done(function( response ) {
+            var articleList = response[1];
+            for (var i = 0; i < articleList.length/2; i++) {
+                articleStr = articleList[i];
+                var url = 'http://en.wikipedia.org/wiki/' + articleStr;
+                self.wikiArr.push({wikiStr:'<li><a href="' + url + '">' + articleStr + '</a></li>'});
             }
-        });
+        }).fail(function(jqXHR, textStatus) {
+            self.wikiArr.push({nytStr:'New York Times Articles Could Not Be Loaded'});
+        })
+        
 
         // load nytimes
         this.nytArr([])
