@@ -47,14 +47,7 @@ var viewModel = function() {
                 icon: defaultIcon,
                 id: locations[i].id,
                 });
-            marker.addListener('click', function() {
-                for (var i = 0; i < markers.length; i++) {
-                    markers[i].setIcon(defaultIcon);
-                }
-                self.setPlace(self.placeList()[this.id]);
-                populateInfoWindow(this, self.largeInfowindow);
-                this.setIcon(highlightedIcon);
-            });
+            marker.addListener('click', self.activateMarker);
             markers.push(marker);
         }
 
@@ -70,6 +63,15 @@ var viewModel = function() {
         google.maps.event.addDomListener(window, 'resize', function() {
             map.fitBounds(bounds); // `bounds` is a `LatLngBounds` object
         });
+    };
+
+    this.activateMarker = function() {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setIcon(defaultIcon);
+        }
+        self.setPlace(self.placeList()[this.id]);
+        populateInfoWindow(this, self.largeInfowindow);
+        this.setIcon(highlightedIcon);
     };
 
     googleError = function() {
