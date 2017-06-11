@@ -126,6 +126,10 @@ var viewModel = function() {
         });
     };
 
+    googleError = function() {
+        window.alert("google maps API failed to load")
+    }
+
     populateInfoWindow = function(marker, infowindow) {
         // Check to make sure the infowindow is not already opened on this marker.
         if (infowindow.marker != marker) {
@@ -263,7 +267,7 @@ var viewModel = function() {
 
         // start timeout in case of error
         var wikiRequestTimeout = setTimeout(function(){
-            $wikiElem.text("failed to get wikipedia resources");
+            self.wikiArr.push({wikiStr:'<li>Failed to load wiki resources</li>'});
         }, 8000);
 
         $.ajax({
@@ -307,7 +311,6 @@ var viewModel = function() {
     };
 
     // filter places
-
     this.query = ko.observable('');
 
     this.filterList = function(value) {
