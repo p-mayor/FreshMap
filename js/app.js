@@ -120,6 +120,10 @@ var ViewModel = function() {
             bounds.extend(markers[i].position);
         }
         map.fitBounds(bounds);
+        
+        google.maps.event.addDomListener(window, 'resize', function() {
+            map.fitBounds(bounds); // `bounds` is a `LatLngBounds` object
+        });
     };
 
     populateInfoWindow = function(marker, infowindow) {
