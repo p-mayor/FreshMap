@@ -1,6 +1,6 @@
 'use strict';
 
-var initMap, highlightedIcon, defaultIcon;
+var initMap, highlightedIcon, defaultIcon, map, markers;
 
 
 // create data model objects
@@ -14,8 +14,7 @@ var Place = function(data) {
 
 var viewModel = function() {
 	var self = this;
-    var map;
-    var markers = [];
+    markers = [];
 
     // initiliaze google map
     initMap = function() {
