@@ -12,7 +12,7 @@
     <div class="container">
         <div data-bind="style: {width: sideBarOpen() ? '250px' : '0px'}"class="sidenav">
             <div class="panel panel-default">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
+                <a href="javascript:void(0)" class="closebtn" data-bind="click: closeNav">
                     &times;
                 </a>
                 <div class="panel-heading">
