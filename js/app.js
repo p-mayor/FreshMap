@@ -73,8 +73,8 @@ var viewModel = function() {
     };
 
     googleError = function() {
-        window.alert("google maps API failed to load")
-    }
+        window.alert("google maps API failed to load");
+    };
 
     populateInfoWindow = function(marker, infowindow) {
         // Check to make sure the infowindow is not already opened on this marker.
@@ -134,7 +134,7 @@ var viewModel = function() {
         return markerImage;
     };
 
-    this.sideBarOpen = ko.observable(false)
+    this.sideBarOpen = ko.observable(false);
     // create button to open sidebar
     SideControl = function(controlDiv, map) {
         // Set CSS for the control border.
@@ -161,12 +161,12 @@ var viewModel = function() {
         controlUI.appendChild(controlText);
 
         controlUI.addEventListener('click', function() {
-            self.sideBarOpen(true)
+            self.sideBarOpen(true);
         });
     };
 
     closeNav = function() {
-        self.sideBarOpen(false)
+        self.sideBarOpen(false);
     };
 
 	this.placeList = ko.observableArray([]);
@@ -206,7 +206,7 @@ var viewModel = function() {
         var searchStr = clickedPlace.title;
         var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + searchStr +
             '&format=json&callback=wikiCallback';
-        this.wikiArr([])
+        this.wikiArr([]);
 
         $.ajax({
             url: wikiUrl,
@@ -221,11 +221,11 @@ var viewModel = function() {
             }
         }).fail(function(jqXHR, textStatus) {
             self.wikiArr.push({nytStr:'New York Times Articles Could Not Be Loaded'});
-        })
+        });
         
 
         // load nytimes
-        this.nytArr([])
+        this.nytArr([]);
 
         var nytimesUrl = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=' +
             searchStr + '&sort=newest&api-key=bdd041098e804a6781c9e0b7079fa316';
@@ -262,7 +262,7 @@ var viewModel = function() {
         }
     };
 
-    this.query.subscribe(this.filterList)
+    this.query.subscribe(this.filterList);
 };
 
 //viewModel().query.subscribe(viewModel().filterList);
