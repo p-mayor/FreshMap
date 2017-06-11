@@ -54,9 +54,9 @@ var locations = [
 
 // create observable objects of data model
 var Place = function(data) {
-	this.title = ko.observable(data.title);
-	this.location = ko.observable(data.location);
-    this.id = ko.observable(data.id);
+	this.title = data.title;
+	this.location = data.location;
+    this.id = data.id;
     this.match = ko.observable(true);
     this.selected = ko.observable(false);
 };
