@@ -6,7 +6,7 @@ body {
   padding: 0;
 }
 
-#map {
+.map-canvas {
   bottom:0px;
   height: 100%;
   left: 0px;
