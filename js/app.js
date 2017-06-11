@@ -17,7 +17,7 @@ var locations = [
     },
     {
         title: "Volunteer Park",
-        location: {lat: 47.631877, lng:-122.315398},
+        location: {lat: 47.631877, lng: -122.315398},
         id: 3
     },
     {
@@ -42,12 +42,12 @@ var locations = [
     },
     {
         title: "Woodland Park Zoo",
-        location: {lat: 47.668292, lng:-122.350596},
+        location: {lat: 47.659524, lng: -122.356197},
         id: 8
     },
     {
         title: "Gas Works Park",
-        location: {lat: 47.645689, lng:-122.334344},
+        location: {lat: 47.645689, lng: -122.334344},
         id: 9
     }
 ];
