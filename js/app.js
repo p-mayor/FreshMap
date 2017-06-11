@@ -232,14 +232,14 @@ var ViewModel = function() {
         // prevent multiple clicks on same place
         if (clickedPlace != self.currentPlace()) {
             if (self.currentPlace()) {
-                markers[self.currentPlace().id()].setIcon(defaultIcon);
+                markers[self.currentPlace().id].setIcon(defaultIcon);
                 self.currentPlace().selected(false);
             }
             self.currentPlace(clickedPlace);
             if (self.currentPlace()) {
                 self.currentPlace().selected(true);
                 self.loadData(clickedPlace);
-                m = markers[self.currentPlace().id()];
+                m = markers[self.currentPlace().id];
                 populateInfoWindow(m, largeInfowindow);
                 m.setIcon(highlightedIcon);
             }
@@ -247,18 +247,21 @@ var ViewModel = function() {
         }
     };
 
+    this.wikiStr = ko.observable();
+
     // load wiki and NYT API data
     this.loadData = function(clickedPlace) {
-        var searchStr = clickedPlace.title();
+        var searchStr = clickedPlace.title;
         var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + searchStr +
             '&format=json&callback=wikiCallback';
-        var $wikiElem = $('#wikipedia-links');
-        $wikiElem.text("");
+
 
         // start timeout in case of error
         var wikiRequestTimeout = setTimeout(function(){
             $wikiElem.text("failed to get wikipedia resources");
         }, 8000);
+
+        
 
         $.ajax({
             url: wikiUrl,
@@ -266,11 +269,10 @@ var ViewModel = function() {
             jsonp: "callback",
             success: function( response ) {
                 var articleList = response[1];
-
                 for (var i = 0; i < articleList.length/2; i++) {
                     articleStr = articleList[i];
                     var url = 'http://en.wikipedia.org/wiki/' + articleStr;
-                    $wikiElem.append('<li><a href="' + url + '">' + articleStr + '</a></li>');
+                    self.wikiStr('<li><a href="' + url + '">' + articleStr + '</a></li>');
                 }
                 // clear timeout so it doesnt reset the page
                 clearTimeout(wikiRequestTimeout);
@@ -309,7 +311,7 @@ var ViewModel = function() {
         li = self.placeList();
 
         for (i = 0; i < li.length; i++) {
-            a = String(li[i].title());
+            a = String(li[i].title);
             if (a.toUpperCase().indexOf(filter) > -1) {
                 li[i].match(true);
                 markers[i].setMap(map);
