@@ -273,6 +273,5 @@ var viewModel = function() {
     this.query.subscribe(this.filterList);
 };
 
-//viewModel().query.subscribe(viewModel().filterList);
 ko.applyBindings(new viewModel());
 
