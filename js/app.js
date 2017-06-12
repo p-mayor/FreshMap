@@ -260,6 +260,7 @@ var viewModel = function() {
         self.nytArr([{nytStr:"Select a place"}]);
         self.wikiArr([{wikiStr:"Select a place"}]);
         for (var i = 0; i < li.length; i++) {
+            self.placeList()[i].selected(false);
             if(li[i].title.toLowerCase().indexOf(value.toLowerCase()) > -1) {
                 self.placeList()[i].match(true);
                 markers[i].setMap(map);
