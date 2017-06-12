@@ -172,7 +172,6 @@ var viewModel = function() {
 
     this.closeNav = function() {
         self.sideBarOpen(false);
-        console.log('hi')
     };
 
 	this.placeList = ko.observableArray([]);
