@@ -50,6 +50,7 @@ var viewModel = function() {
                 id: locations[i].id,
                 });
             marker.addListener('click', self.activateMarker);
+            marker.setMap(map)
             markers.push(marker);
         }
 
@@ -57,7 +58,7 @@ var viewModel = function() {
 
         // Extend the boundaries of the map for each marker and display the marker
         for (i = 0; i < markers.length; i++) {
-            markers[i].setMap(map);
+            markers[i].setVisible(true);
             bounds.extend(markers[i].position);
         }
         map.fitBounds(bounds);
@@ -74,6 +75,7 @@ var viewModel = function() {
         self.setPlace(self.placeList()[this.id]);
         populateInfoWindow(this, self.largeInfowindow);
         this.setIcon(highlightedIcon);
+        map.panTo(this.getPosition());
     };
 
     googleError = function() {
@@ -261,10 +263,10 @@ var viewModel = function() {
             self.placeList()[i].selected(false);
             if(li[i].title.toLowerCase().indexOf(value.toLowerCase()) > -1) {
                 self.placeList()[i].match(true);
-                markers[i].setMap(map);
+                markers[i].setVisible(true);
             } else {
                 self.placeList()[i].match(false);
-                markers[i].setMap(null);
+                markers[i].setVisible(false);
             }
         }
     };
