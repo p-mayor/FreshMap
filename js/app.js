@@ -1,4 +1,4 @@
-var initMap, highlightedIcon, defaultIcon, map, markers, ko, google, locations;
+var googleError, initMap, highlightedIcon, defaultIcon, map, markers, ko, google, locations;
 
 
 // create data model objects
@@ -76,7 +76,7 @@ var viewModel = function() {
         this.setIcon(highlightedIcon);
     };
 
-    var googleError = function() {
+    googleError = function() {
         window.alert("google maps API failed to load");
     };
 
