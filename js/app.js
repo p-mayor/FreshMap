@@ -50,7 +50,7 @@ var viewModel = function() {
                 id: locations[i].id,
                 });
             marker.addListener('click', self.activateMarker);
-            marker.setMap(map)
+            marker.setMap(map);
             markers.push(marker);
         }
 
