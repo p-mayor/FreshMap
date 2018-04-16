@@ -21,7 +21,7 @@ var viewModel = function() {
             zoom: 13,
             mapTypeControl: false
         });
-        
+
         // Create the DIV to hold the control and call the CenterControl()
         // constructor passing in this DIV.
         var sideControlDiv = document.createElement('div');
@@ -62,7 +62,7 @@ var viewModel = function() {
             bounds.extend(markers[i].position);
         }
         map.fitBounds(bounds);
-        
+
         google.maps.event.addDomListener(window, 'resize', function() {
             map.fitBounds(bounds); // `bounds` is a `LatLngBounds` object
         });
@@ -180,7 +180,7 @@ var viewModel = function() {
     // create a new Place from each item and add to placeList
 	locations.forEach(function(datItem){
 		self.placeList.push( new Place(datItem) );
-	});	
+	});
 
 	this.currentPlace = ko.observable();
 
@@ -211,7 +211,7 @@ var viewModel = function() {
     // load wiki and NYT API data
     this.loadData = function(clickedPlace) {
         var searchStr = clickedPlace.title;
-        var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + searchStr +
+        var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + searchStr +
             '&format=json&callback=wikiCallback';
         this.wikiArr([]);
 
@@ -224,18 +224,18 @@ var viewModel = function() {
             var articleStr;
             for (var i = 0; i < articleList.length/2; i++) {
                 articleStr = articleList[i];
-                var url = 'http://en.wikipedia.org/wiki/' + articleStr;
+                var url = 'https://en.wikipedia.org/wiki/' + articleStr;
                 self.wikiArr.push({wikiStr:'<li><a href="' + url + '">' + articleStr + '</a></li>'});
             }
         }).fail(function(jqXHR, textStatus) {
             self.wikiArr.push({wikiStr:'Wiki Data Could Not Be Loaded'});
         });
-        
+
 
         // load nytimes
         this.nytArr([]);
 
-        var nytimesUrl = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=' +
+        var nytimesUrl = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' +
             searchStr + '&sort=newest&api-key=bdd041098e804a6781c9e0b7079fa316';
         $.getJSON(nytimesUrl, function(data){
             var articles = data.response.docs;
@@ -275,4 +275,3 @@ var viewModel = function() {
 };
 
 ko.applyBindings(new viewModel());
-
